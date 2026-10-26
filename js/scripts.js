@@ -14,18 +14,12 @@ const eraseBtn = document.querySelector("#erase-button");
 let editingTodoId;
 
 //Funções
-const saveTodo = (text, done = 0, save = true, id = crypto.randomUUID()) => {
+const saveTodo = (text, done = 0, id = crypto.randomUUID()) => {
 
     const todo = createTodoElement(text, done, id);
-
-    if (save) {
-        saveTodoLocalStorage({ text, done, id });
-    }
-
+    saveTodoLocalStorage({ text, done, id });
     todoList.appendChild(todo);
 
-    todoInput.value = "";
-    todoInput.focus();
 };
 
 const toggleForms = () => {
@@ -77,6 +71,8 @@ todoForm.addEventListener("submit", (e) => {
     if (inputValue) {
         saveTodo(inputValue);
         applyFilters();
+        todoInput.value = "";
+        todoInput.focus();
     }
 });
 
@@ -153,7 +149,8 @@ const loadTodos = () => {
     const todos = getTodosLocalStorage();
 
     todos.forEach((todo) => {
-        saveTodo(todo.text, todo.done, false, todo.id);
+        const todoElement = createTodoElement(todo.text, todo.done, todo.id);
+        todoList.appendChild(todoElement);
     });
 };
 
