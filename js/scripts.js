@@ -1,4 +1,5 @@
 import { getTodosLocalStorage, saveTodoLocalStorage, removeTodoLocalStorage, updateTodoStatusLocalStorage, updateTodoLocalStorage } from "./storage.js";
+import { createTodoElement } from "./ui.js";
 //Seleção de elementos
 const todoForm = document.querySelector("#todo-form");
 const todoInput = document.querySelector("#todo-input");
@@ -14,35 +15,11 @@ let editingTodoId;
 
 //Funções
 const saveTodo = (text, done = 0, save = true, id = crypto.randomUUID()) => {
-    const todo = document.createElement("div");
-    todo.classList.add("todo");
-    todo.dataset.id = id;
 
-    const todoTitle = document.createElement("h3");
-    todoTitle.innerText = text;
-    todo.appendChild(todoTitle);
-
-    const doneBtn = document.createElement("button");
-    doneBtn.classList.add("finish-todo");
-    doneBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
-    todo.appendChild(doneBtn);
-
-    const editBtn = document.createElement("button");
-    editBtn.classList.add("edit-todo");
-    editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
-    todo.appendChild(editBtn);
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.classList.add("remove-todo");
-    deleteBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-    todo.appendChild(deleteBtn);
-
-    if (done) {
-        todo.classList.add("done");
-    }
+    const todo = createTodoElement(text, done, id);
 
     if (save) {
-        saveTodoLocalStorage({ text, done, id});
+        saveTodoLocalStorage({ text, done, id });
     }
 
     todoList.appendChild(todo);
@@ -80,9 +57,9 @@ const applyFilters = () => {
         const text = todo.querySelector("h3").innerText.toLowerCase();
         const matchesSearch = text.includes(search);
         const isDone = todo.classList.contains("done");
-        const matchesStatus =  filter === "all" || (filter === "done" && isDone) || (filter === "todo" && !isDone);
+        const matchesStatus = filter === "all" || (filter === "done" && isDone) || (filter === "todo" && !isDone);
         const shouldShow = matchesSearch && matchesStatus;
-        if(shouldShow === true) {
+        if (shouldShow === true) {
             todo.style.display = "flex";
         } else {
             todo.style.display = "none";
@@ -105,12 +82,12 @@ todoForm.addEventListener("submit", (e) => {
 
 document.addEventListener("click", (e) => {
     const targetEl = e.target.closest("button");
-    if(!targetEl) {
+    if (!targetEl) {
         return;
     }
 
     const parentEl = targetEl.closest(".todo");
-    if(!parentEl) {
+    if (!parentEl) {
         return;
     }
 
