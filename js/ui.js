@@ -1,11 +1,25 @@
-export const createTodoElement = (text, done, id) => {
+export const priorityNames = {
+        high: "Alta",
+        medium: "Média",
+        low: "Baixa"
+
+    };
+
+export const createTodoElement = (text, done, id, priority = "medium") => {
     const todo = document.createElement("div");
     todo.classList.add("todo");
     todo.dataset.id = id;
+    todo.dataset.priority = priority;
 
     const todoTitle = document.createElement("h3");
     todoTitle.innerText = text;
     todo.appendChild(todoTitle);
+
+    const priorityLabel = document.createElement("span");
+    priorityLabel.classList.add("todo-priority");
+    priorityLabel.classList.add(priority);
+    priorityLabel.innerText = priorityNames[priority];
+    todo.appendChild(priorityLabel);
 
     const doneBtn = document.createElement("button");
     doneBtn.classList.add("finish-todo");

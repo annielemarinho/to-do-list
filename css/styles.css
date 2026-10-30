@@ -163,3 +163,29 @@ input, select {
     text-decoration: line-through;
     font-style: italic;
 }
+
+.todo-priority {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-right: 8px;
+}
+
+.todo-priority.high {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.todo-priority.medium {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.todo-priority.low {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.priority-control {
+    margin-top: 12px;
+}
