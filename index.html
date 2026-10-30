@@ -25,6 +25,14 @@
                     <i class="fa-solid fa-plus"></i>
                 </button>
             </div>
+            <div class="priority-control">
+                <label for="todo-priority">Prioridade:</label>
+                <select id="todo-priority">
+                    <option value="low">Baixa</option>
+                    <option value="medium" selected>Média</option>
+                    <option value="high">Alta</option>
+                </select>
+            </div>
         </form>
         <form id="edit-form" class="hide">
             <p>Edite a sua tarefa:</p>
@@ -33,6 +41,14 @@
                 <button type="submit">
                     <i class="fa-solid fa-check-double"></i>
                 </button>
+            </div>
+            <div class="priority-control">
+                <label for="edit-priority">Prioridade:</label>
+                <select id="edit-priority">
+                    <option value="low">Baixa</option>
+                    <option value="medium" selected>Média</option>
+                    <option value="high">Alta</option>
+                </select>
             </div>
             <button id="cancel-edit-btn">Cancelar</button>
         </form>

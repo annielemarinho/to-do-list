@@ -1,5 +1,5 @@
 import { getTodosLocalStorage, saveTodoLocalStorage, removeTodoLocalStorage, updateTodoStatusLocalStorage, updateTodoLocalStorage } from "./storage.js";
-import { createTodoElement } from "./ui.js";
+import { createTodoElement, priorityNames } from "./ui.js";
 //Seleção de elementos
 const todoForm = document.querySelector("#todo-form");
 const todoInput = document.querySelector("#todo-input");
@@ -10,14 +10,16 @@ const cancelEditBtn = document.querySelector("#cancel-edit-btn");
 const filterSelect = document.querySelector("#filter-select");
 const searchInput = document.querySelector("#search-input");
 const eraseBtn = document.querySelector("#erase-button");
+const todoPriority = document.querySelector("#todo-priority");
+const editPriority = document.querySelector("#edit-priority");
 
 let editingTodoId;
 
 //Funções
-const saveTodo = (text, done = 0, id = crypto.randomUUID()) => {
+const saveTodo = (text, priority = "medium", done = 0, id = crypto.randomUUID()) => {
 
-    const todo = createTodoElement(text, done, id);
-    saveTodoLocalStorage({ text, done, id });
+    const todo = createTodoElement(text, done, id, priority);
+    saveTodoLocalStorage({ text, done, id, priority });
     todoList.appendChild(todo);
 
 };
@@ -28,17 +30,23 @@ const toggleForms = () => {
     todoList.classList.toggle("hide");
 }
 
-const updateTodo = (text) => {
+const updateTodo = (text, priority) => {
     const todos = document.querySelectorAll(".todo");
 
     todos.forEach((todo) => {
         let todoTitle = todo.querySelector("h3");
+        
         if (todo.dataset.id === editingTodoId) {
             todoTitle.innerText = text;
+            todo.dataset.priority = priority;
+            const priorityLabel = todo.querySelector(".todo-priority");
+            priorityLabel.classList.remove('low', 'medium', 'high');
+            priorityLabel.classList.add(priority);
+            priorityLabel.innerText = priorityNames[priority];
         }
     });
 
-    updateTodoLocalStorage(editingTodoId, text);
+    updateTodoLocalStorage(editingTodoId, text, priority);
     applyFilters();
 };
 
@@ -67,11 +75,13 @@ todoForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const inputValue = todoInput.value.trim();
+    const priority = todoPriority.value;
 
     if (inputValue) {
-        saveTodo(inputValue);
+        saveTodo(inputValue, priority);
         applyFilters();
         todoInput.value = "";
+        todoPriority.value = "medium";
         todoInput.focus();
     }
 });
@@ -109,6 +119,7 @@ document.addEventListener("click", (e) => {
         toggleForms();
 
         editInput.value = todoTitle;
+        editPriority.value = parentEl.dataset.priority;
         editingTodoId = todoId;
     }
 });
@@ -122,10 +133,11 @@ editForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const editInputValue = editInput.value.trim();
+    const priority = editPriority.value;
 
     if (editInputValue) {
         // atualizar
-        updateTodo(editInputValue);
+        updateTodo(editInputValue, priority);
         toggleForms();
     }
 })
@@ -149,7 +161,7 @@ const loadTodos = () => {
     const todos = getTodosLocalStorage();
 
     todos.forEach((todo) => {
-        const todoElement = createTodoElement(todo.text, todo.done, todo.id);
+        const todoElement = createTodoElement(todo.text, todo.done, todo.id, todo.priority);
         todoList.appendChild(todoElement);
     });
 };
