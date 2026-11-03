@@ -1,5 +1,5 @@
 import { getTodosLocalStorage, saveTodoLocalStorage, removeTodoLocalStorage, updateTodoStatusLocalStorage, updateTodoLocalStorage } from "./storage.js";
-import { createTodoElement, priorityNames } from "./ui.js";
+import { createTodoElement, priorityNames, categoryNames } from "./ui.js";
 //Seleção de elementos
 const todoForm = document.querySelector("#todo-form");
 const todoInput = document.querySelector("#todo-input");
@@ -12,14 +12,16 @@ const searchInput = document.querySelector("#search-input");
 const eraseBtn = document.querySelector("#erase-button");
 const todoPriority = document.querySelector("#todo-priority");
 const editPriority = document.querySelector("#edit-priority");
+const todoCategory = document.querySelector("#todo-category");
+const editCategory = document.querySelector("#edit-category");
 
 let editingTodoId;
 
 //Funções
-const saveTodo = (text, priority = "medium", done = 0, id = crypto.randomUUID()) => {
+const saveTodo = (text, priority = "medium", category = "none", done = 0, id = crypto.randomUUID()) => {
 
-    const todo = createTodoElement(text, done, id, priority);
-    saveTodoLocalStorage({ text, done, id, priority });
+    const todo = createTodoElement(text, done, id, priority, category);
+    saveTodoLocalStorage({ text, done, id, priority, category });
     todoList.appendChild(todo);
 
 };
@@ -30,7 +32,7 @@ const toggleForms = () => {
     todoList.classList.toggle("hide");
 }
 
-const updateTodo = (text, priority) => {
+const updateTodo = (text, priority, category) => {
     const todos = document.querySelectorAll(".todo");
 
     todos.forEach((todo) => {
@@ -39,14 +41,17 @@ const updateTodo = (text, priority) => {
         if (todo.dataset.id === editingTodoId) {
             todoTitle.innerText = text;
             todo.dataset.priority = priority;
+            todo.dataset.category = category;
             const priorityLabel = todo.querySelector(".todo-priority");
+            const categoryLabel = todo.querySelector(".todo-category");
+            categoryLabel.innerText = categoryNames[category];
             priorityLabel.classList.remove('low', 'medium', 'high');
             priorityLabel.classList.add(priority);
             priorityLabel.innerText = priorityNames[priority];
         }
     });
 
-    updateTodoLocalStorage(editingTodoId, text, priority);
+    updateTodoLocalStorage(editingTodoId, text, priority, category);
     applyFilters();
 };
 
@@ -76,12 +81,14 @@ todoForm.addEventListener("submit", (e) => {
 
     const inputValue = todoInput.value.trim();
     const priority = todoPriority.value;
+    const category = todoCategory.value;
 
     if (inputValue) {
-        saveTodo(inputValue, priority);
+        saveTodo(inputValue, priority, category);
         applyFilters();
         todoInput.value = "";
         todoPriority.value = "medium";
+        todoCategory.value = "none";
         todoInput.focus();
     }
 });
@@ -120,6 +127,7 @@ document.addEventListener("click", (e) => {
 
         editInput.value = todoTitle;
         editPriority.value = parentEl.dataset.priority;
+        editCategory.value = parentEl.dataset.category;
         editingTodoId = todoId;
     }
 });
@@ -134,13 +142,14 @@ editForm.addEventListener("submit", (e) => {
 
     const editInputValue = editInput.value.trim();
     const priority = editPriority.value;
+    const category = editCategory.value;
 
     if (editInputValue) {
         // atualizar
-        updateTodo(editInputValue, priority);
+        updateTodo(editInputValue, priority, category);
         toggleForms();
     }
-})
+});
 
 filterSelect.addEventListener("change", () => {
     applyFilters();
@@ -161,7 +170,7 @@ const loadTodos = () => {
     const todos = getTodosLocalStorage();
 
     todos.forEach((todo) => {
-        const todoElement = createTodoElement(todo.text, todo.done, todo.id, todo.priority);
+        const todoElement = createTodoElement(todo.text, todo.done, todo.id, todo.priority, todo.category);
         todoList.appendChild(todoElement);
     });
 };

@@ -3,13 +3,21 @@ export const priorityNames = {
         medium: "Média",
         low: "Baixa"
 
-    };
+};
 
-export const createTodoElement = (text, done, id, priority = "medium") => {
+export const categoryNames = {
+    none: "Sem categoria",
+    studies: "Estudos",
+    work: "Trabalho",
+    personal: "Pessoal"
+};
+
+export const createTodoElement = (text, done, id, priority = "medium", category = "none") => {
     const todo = document.createElement("div");
     todo.classList.add("todo");
     todo.dataset.id = id;
     todo.dataset.priority = priority;
+    todo.dataset.category = category;
 
     const todoTitle = document.createElement("h3");
     todoTitle.innerText = text;
@@ -20,6 +28,11 @@ export const createTodoElement = (text, done, id, priority = "medium") => {
     priorityLabel.classList.add(priority);
     priorityLabel.innerText = priorityNames[priority];
     todo.appendChild(priorityLabel);
+
+    const categoryLabel = document.createElement("span");
+    categoryLabel.classList.add("todo-category");
+    categoryLabel.innerText = categoryNames[category];
+    todo.appendChild(categoryLabel);
 
     const doneBtn = document.createElement("button");
     doneBtn.classList.add("finish-todo");
