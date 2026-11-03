@@ -42,13 +42,14 @@ export const updateTodoStatusLocalStorage = (todoId) => {
     localStorage.setItem("todos", JSON.stringify(todos));
 };
 
-export const updateTodoLocalStorage = (todoId, todoNewText, priority) => {
+export const updateTodoLocalStorage = (todoId, todoNewText, priority, category) => {
     const todos = getTodosLocalStorage();
 
     todos.forEach((todo) => {
         if (todo.id === todoId) {
             todo.text = todoNewText;
             todo.priority = priority;
+            todo.category = category;
         }
     });
 
