@@ -55,7 +55,7 @@ input, select {
 
 /* Todo header */
 .todo-container {
-    max-width: 450px;
+    max-width: 650px;
     width: 100%;
     margin: 3rem 1rem;
     background-color: #fdfdfd;
@@ -204,4 +204,21 @@ input, select {
     margin-right: 8px;
     background-color: #e0e7ff;
     color: #3730a3;
+}
+
+.deadline-control {
+    margin-top: 12px;
+}
+
+.todo-deadline {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    background-color: #f3f4f6;
+    color: #374151;
+    white-space: nowrap;
+}
+
+.todo-actions {
+    display: flex;
 }

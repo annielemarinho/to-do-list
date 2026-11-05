@@ -42,7 +42,7 @@ export const updateTodoStatusLocalStorage = (todoId) => {
     localStorage.setItem("todos", JSON.stringify(todos));
 };
 
-export const updateTodoLocalStorage = (todoId, todoNewText, priority, category) => {
+export const updateTodoLocalStorage = (todoId, todoNewText, priority, category, deadline) => {
     const todos = getTodosLocalStorage();
 
     todos.forEach((todo) => {
@@ -50,6 +50,7 @@ export const updateTodoLocalStorage = (todoId, todoNewText, priority, category) 
             todo.text = todoNewText;
             todo.priority = priority;
             todo.category = category;
+            todo.deadline = deadline;
         }
     });
 
