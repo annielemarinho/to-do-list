@@ -12,12 +12,13 @@ export const categoryNames = {
     personal: "Pessoal"
 };
 
-export const createTodoElement = (text, done, id, priority = "medium", category = "none") => {
+export const createTodoElement = (text, done, id, priority = "medium", category = "none", deadline = "") => {
     const todo = document.createElement("div");
     todo.classList.add("todo");
     todo.dataset.id = id;
     todo.dataset.priority = priority;
     todo.dataset.category = category;
+    todo.dataset.deadline = deadline;
 
     const todoTitle = document.createElement("h3");
     todoTitle.innerText = text;
@@ -34,19 +35,33 @@ export const createTodoElement = (text, done, id, priority = "medium", category 
     categoryLabel.innerText = categoryNames[category];
     todo.appendChild(categoryLabel);
 
+    const deadlineLabel = document.createElement("span");
+    deadlineLabel.classList.add("todo-deadline");
+    if (deadline) {
+        const dateParts = deadline.split("-");
+        deadlineLabel.innerText = dateParts[2] + "/" + dateParts[1] + "/" + dateParts[0];
+    } else {
+        deadlineLabel.innerText = "Sem Prazo";
+    }
+    todo.appendChild(deadlineLabel);
+
+    const actions = document.createElement("div");
+    actions.classList.add("todo-actions");
+
     const doneBtn = document.createElement("button");
     doneBtn.classList.add("finish-todo");
     doneBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
-    todo.appendChild(doneBtn);
+    actions.appendChild(doneBtn);
     const editBtn = document.createElement("button");
     editBtn.classList.add("edit-todo");
     editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
-    todo.appendChild(editBtn);
+    actions.appendChild(editBtn);
 
     const deleteBtn = document.createElement("button");
     deleteBtn.classList.add("remove-todo");
     deleteBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-    todo.appendChild(deleteBtn);
+    actions.appendChild(deleteBtn);
+    todo.appendChild(actions);
 
     if (done) {
         todo.classList.add("done");
