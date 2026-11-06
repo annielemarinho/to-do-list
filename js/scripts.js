@@ -77,7 +77,8 @@ const applyFilters = () => {
         const text = todo.querySelector("h3").innerText.toLowerCase();
         const matchesSearch = text.includes(search);
         const isDone = todo.classList.contains("done");
-        const matchesStatus = filter === "all" || (filter === "done" && isDone) || (filter === "todo" && !isDone);
+        const isOverdue = todo.classList.contains("overdue");
+        const matchesStatus = filter === "all" || (filter === "done" && isDone) || (filter === "todo" && !isDone) || (filter === "overdue" && isOverdue);
         const shouldShow = matchesSearch && matchesStatus;
         if (shouldShow === true) {
             todo.style.display = "flex";
