@@ -12,6 +12,20 @@ export const categoryNames = {
     personal: "Pessoal"
 };
 
+export const updateTodoDeadlineState = (todo) => {
+    const deadline = todo.dataset.deadline;
+    const isDone = todo.classList.contains("done");
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (deadline) {
+        const deadlineDate = new Date(deadline + "T00:00:00");
+        const isOverdue = deadlineDate < today && !isDone;
+        todo.classList.toggle("overdue", isOverdue);
+    } else {
+        todo.classList.remove("overdue");
+    }
+}
+
 export const createTodoElement = (text, done, id, priority = "medium", category = "none", deadline = "") => {
     const todo = document.createElement("div");
     todo.classList.add("todo");
@@ -66,5 +80,7 @@ export const createTodoElement = (text, done, id, priority = "medium", category 
     if (done) {
         todo.classList.add("done");
     }
+    
+    updateTodoDeadlineState(todo);
     return todo;
 };
