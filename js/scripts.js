@@ -1,5 +1,5 @@
 import { getTodosLocalStorage, saveTodoLocalStorage, removeTodoLocalStorage, updateTodoStatusLocalStorage, updateTodoLocalStorage } from "./storage.js";
-import { createTodoElement, priorityNames, categoryNames } from "./ui.js";
+import { createTodoElement, priorityNames, categoryNames, updateTodoDeadlineState } from "./ui.js";
 
 //Seleção de elementos
 const todoForm = document.querySelector("#todo-form");
@@ -59,11 +59,13 @@ const updateTodo = (text, priority, category, deadline) => {
             priorityLabel.classList.remove('low', 'medium', 'high');
             priorityLabel.classList.add(priority);
             priorityLabel.innerText = priorityNames[priority];
+            updateTodoDeadlineState(todo);
         }
     });
 
     updateTodoLocalStorage(editingTodoId, text, priority, category, deadline);
     applyFilters();
+    
 };
 
 const applyFilters = () => {
@@ -126,6 +128,7 @@ document.addEventListener("click", (e) => {
 
     if (targetEl.classList.contains("finish-todo")) {
         parentEl.classList.toggle("done");
+        updateTodoDeadlineState(parentEl);
         updateTodoStatusLocalStorage(todoId);
         applyFilters();
     }

@@ -222,3 +222,8 @@ input, select {
 .todo-actions {
     display: flex;
 }
+
+.todo.overdue .todo-deadline{
+    background-color: #fee2e2;
+    color: #991b1b;
+}
