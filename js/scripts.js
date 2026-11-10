@@ -17,6 +17,7 @@ const todoCategory = document.querySelector("#todo-category");
 const editCategory = document.querySelector("#edit-category");
 const todoDeadline = document.querySelector("#todo-deadline");
 const editDeadline = document.querySelector("#edit-deadline");
+const categoryFilterSelect = document.querySelector("#category-filter-select");
 
 let editingTodoId;
 
@@ -72,14 +73,16 @@ const applyFilters = () => {
     const search = searchInput.value.trim().toLowerCase();
     const filter = filterSelect.value;
     const todos = document.querySelectorAll(".todo");
+    const categoryFilter =  categoryFilterSelect.value;
 
     todos.forEach((todo) => {
         const text = todo.querySelector("h3").innerText.toLowerCase();
         const matchesSearch = text.includes(search);
         const isDone = todo.classList.contains("done");
         const isOverdue = todo.classList.contains("overdue");
+        const matchesCategory = categoryFilter === "all" || todo.dataset.category === categoryFilter;
         const matchesStatus = filter === "all" || (filter === "done" && isDone) || (filter === "todo" && !isDone) || (filter === "overdue" && isOverdue);
-        const shouldShow = matchesSearch && matchesStatus;
+        const shouldShow = matchesSearch && matchesStatus && matchesCategory;
         if (shouldShow === true) {
             todo.style.display = "flex";
         } else {
@@ -168,6 +171,10 @@ editForm.addEventListener("submit", (e) => {
         updateTodo(editInputValue, priority, category, deadline);
         toggleForms();
     }
+});
+
+categoryFilterSelect.addEventListener("change", () => {
+    applyFilters();
 });
 
 filterSelect.addEventListener("change", () => {
