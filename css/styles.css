@@ -55,7 +55,7 @@ input, select {
 
 /* Todo header */
 .todo-container {
-    max-width: 650px;
+    max-width: 1000px;
     width: 100%;
     margin: 3rem 1rem;
     background-color: #fdfdfd;
@@ -143,9 +143,23 @@ input, select {
     flex: 1;
     display: flex;
     flex-direction: column;
+    border-right: 1px solid #ddd;
+    padding-right: 1rem;
 }
 
 #category-filter label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+#priority-filter {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#priority-filter label {
     margin-bottom: 0.5rem;
     font-weight: bold;
     font-size: 0.9rem;
