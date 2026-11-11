@@ -261,3 +261,9 @@ input, select {
     background-color: #fee2e2;
     color: #991b1b;
 }
+
+#empty-message {
+    text-align: center;
+    padding: 1rem;
+    color: #727171;
+}

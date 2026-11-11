@@ -20,6 +20,7 @@ const editDeadline = document.querySelector("#edit-deadline");
 const categoryFilterSelect = document.querySelector("#category-filter-select");
 const priorityFilterSelect = document.querySelector("#priority-filter-select");
 const clearFiltersBtn = document.querySelector("#clear-filters-btn");
+const emptyMessage = document.querySelector("#empty-message");
 
 let editingTodoId;
 
@@ -77,6 +78,7 @@ const applyFilters = () => {
     const todos = document.querySelectorAll(".todo");
     const categoryFilter =  categoryFilterSelect.value;
     const priorityFilter = priorityFilterSelect.value;
+    let visibleCount = 0;
 
     todos.forEach((todo) => {
         const text = todo.querySelector("h3").innerText.toLowerCase();
@@ -89,10 +91,12 @@ const applyFilters = () => {
         const shouldShow = matchesSearch && matchesStatus && matchesCategory && matchesPriority;
         if (shouldShow === true) {
             todo.style.display = "flex";
+            visibleCount++;
         } else {
             todo.style.display = "none";
         }
     });
+    emptyMessage.classList.toggle("hide", visibleCount > 0);
 };
 
 
@@ -144,6 +148,7 @@ document.addEventListener("click", (e) => {
     if (targetEl.classList.contains("remove-todo")) {
         parentEl.remove();
         removeTodoLocalStorage(todoId);
+        applyFilters();
     }
 
     if (targetEl.classList.contains("edit-todo")) {
@@ -215,6 +220,8 @@ const loadTodos = () => {
         const todoElement = createTodoElement(todo.text, todo.done, todo.id, todo.priority, todo.category, todo.deadline);
         todoList.appendChild(todoElement);
     });
+
+    applyFilters();
 };
 
 loadTodos();
