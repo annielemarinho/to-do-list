@@ -19,6 +19,7 @@ const todoDeadline = document.querySelector("#todo-deadline");
 const editDeadline = document.querySelector("#edit-deadline");
 const categoryFilterSelect = document.querySelector("#category-filter-select");
 const priorityFilterSelect = document.querySelector("#priority-filter-select");
+const clearFiltersBtn = document.querySelector("#clear-filters-btn");
 
 let editingTodoId;
 
@@ -195,6 +196,14 @@ searchInput.addEventListener("input", () => {
 eraseBtn.addEventListener("click", (e) => {
     e.preventDefault();
     searchInput.value = "";
+    applyFilters();
+});
+
+clearFiltersBtn.addEventListener("click", () => {
+    searchInput.value = "";
+    filterSelect.value = "all";
+    categoryFilterSelect.value = "all";
+    priorityFilterSelect.value = "all";
     applyFilters();
 });
 
