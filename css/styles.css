@@ -267,3 +267,26 @@ input, select {
     padding: 1rem;
     color: #727171;
 }
+
+#task-counter {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding: 1rem 0;
+}
+
+#task-counter p {
+    flex: 1;
+    background-color: #f3f0fa;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+#task-counter span {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+    color: #56328a;
+}
