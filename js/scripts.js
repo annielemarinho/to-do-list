@@ -21,6 +21,9 @@ const categoryFilterSelect = document.querySelector("#category-filter-select");
 const priorityFilterSelect = document.querySelector("#priority-filter-select");
 const clearFiltersBtn = document.querySelector("#clear-filters-btn");
 const emptyMessage = document.querySelector("#empty-message");
+const totalCount = document.querySelector("#total-count");
+const pendingCount = document.querySelector("#pending-count");
+const completedCount = document.querySelector("#completed-count");
 
 let editingTodoId;
 
@@ -99,6 +102,15 @@ const applyFilters = () => {
     emptyMessage.classList.toggle("hide", visibleCount > 0);
 };
 
+const updateTaskCounter = () => {
+    const todos = document.querySelectorAll(".todo");
+    const total = todos.length; 
+    const completed = document.querySelectorAll(".todo.done").length;
+    const pending = total - completed;
+    totalCount.textContent = total;
+    pendingCount.textContent = pending;
+    completedCount.textContent = completed;
+};
 
 //Eventos
 todoForm.addEventListener("submit", (e) => {
@@ -117,7 +129,9 @@ todoForm.addEventListener("submit", (e) => {
         todoCategory.value = "none";
         todoDeadline.value = "";
         todoInput.focus();
+        updateTaskCounter();
     }
+    
 });
 
 document.addEventListener("click", (e) => {
@@ -140,6 +154,7 @@ document.addEventListener("click", (e) => {
 
     if (targetEl.classList.contains("finish-todo")) {
         parentEl.classList.toggle("done");
+        updateTaskCounter();
         updateTodoDeadlineState(parentEl);
         updateTodoStatusLocalStorage(todoId);
         applyFilters();
@@ -147,6 +162,7 @@ document.addEventListener("click", (e) => {
 
     if (targetEl.classList.contains("remove-todo")) {
         parentEl.remove();
+        updateTaskCounter();
         removeTodoLocalStorage(todoId);
         applyFilters();
     }
@@ -221,6 +237,7 @@ const loadTodos = () => {
         todoList.appendChild(todoElement);
     });
 
+    updateTaskCounter();
     applyFilters();
 };
 
