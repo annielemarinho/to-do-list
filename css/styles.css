@@ -90,6 +90,26 @@ input, select {
     margin-right: 0.3rem;
 }
 
+.task-details {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+.task-details label {
+    font-weight: bold;
+}
+
+#task-form-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#clear-task-form-btn {
+    margin-top: 0.75rem;
+}
+
 #cancel-edit-btn {
     margin-top: 1rem;
 }
@@ -310,3 +330,8 @@ input, select {
     color: #56328a;
 }
 
+@media (max-width: 600px) {
+    .task-details {
+        flex-direction: column;
+    }
+}
