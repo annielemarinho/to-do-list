@@ -24,6 +24,7 @@ const emptyMessage = document.querySelector("#empty-message");
 const totalCount = document.querySelector("#total-count");
 const pendingCount = document.querySelector("#pending-count");
 const completedCount = document.querySelector("#completed-count");
+const sortSelect = document.querySelector("#sort-select");
 
 let editingTodoId;
 
@@ -71,6 +72,7 @@ const updateTodo = (text, priority, category, deadline) => {
     });
 
     updateTodoLocalStorage(editingTodoId, text, priority, category, deadline);
+    sortTodos();
     applyFilters();
     
 };
@@ -112,6 +114,55 @@ const updateTaskCounter = () => {
     completedCount.textContent = completed;
 };
 
+const sortTodos = () => {
+    const todos = Array.from(todoList.querySelectorAll(".todo"));
+    const sortOption = sortSelect.value;
+    if (sortOption === "priority") {
+        const priorityOrder = {
+            high: 0,
+            medium: 1,
+            low: 2
+        };
+
+        todos.sort((a, b) => {
+            const priorityA = priorityOrder[a.dataset.priority];
+            const priorityB = priorityOrder[b.dataset.priority];
+            return priorityA - priorityB;
+        });
+    }else if (sortOption === "deadline"){
+        todos.sort((a, b) => {
+            const deadlineA = a.dataset.deadline;
+            const deadlineB = b.dataset.deadline;
+            if (!deadlineA && !deadlineB) {
+                return 0;
+            }
+            if (!deadlineA) {
+                return 1;
+            }
+            if (!deadlineB) {
+                return -1;
+            }
+
+            return deadlineA.localeCompare(deadlineB);
+        });
+    }else if (sortOption === "default") {
+        const savedTodos = getTodosLocalStorage();
+        todos.sort((a, b) => {
+            const indexA = savedTodos.findIndex((todo) => {
+                return todo.id === a.dataset.id;
+            });
+            const indexB = savedTodos.findIndex((todo) => {
+                return todo.id === b.dataset.id;
+            });
+            return indexA - indexB;
+        });
+    }
+
+    todos.forEach((todo) => {
+        todoList.appendChild(todo);
+    });
+}
+
 //Eventos
 todoForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -123,6 +174,7 @@ todoForm.addEventListener("submit", (e) => {
 
     if (inputValue) {
         saveTodo(inputValue, priority, category, deadline);
+        sortTodos();
         applyFilters();
         todoInput.value = "";
         todoPriority.value = "medium";
@@ -209,6 +261,10 @@ categoryFilterSelect.addEventListener("change", () => {
 priorityFilterSelect.addEventListener("change", () => {
     applyFilters();
 });
+
+sortSelect.addEventListener("change", () => {
+    sortTodos();
+})
 
 searchInput.addEventListener("input", () => {
     applyFilters();

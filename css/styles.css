@@ -112,7 +112,6 @@ input, select {
 #search {
     border-right: 1px solid #ddd;
     padding-right: 1rem;
-    margin-right: 1rem;
     flex: 2;
     display: flex;
     flex-direction: column;
@@ -157,6 +156,8 @@ input, select {
     flex: 1;
     display: flex;
     flex-direction: column;
+    border-right: 1px solid #ddd;
+    padding-right: 1rem;
 }
 
 #priority-filter label {
@@ -165,8 +166,26 @@ input, select {
     font-size: 0.9rem;
 }
 
+#toolbar-actions {
+    flex-basis: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
 #clear-filters-btn {
     align-self: flex-end;
+}
+
+#task-sorting {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#task-sorting label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    font-size: 0.9rem;
 }
 
 /* Todo List */
@@ -290,3 +309,4 @@ input, select {
     margin-top: 0.5rem;
     color: #56328a;
 }
+
