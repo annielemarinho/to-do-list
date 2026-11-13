@@ -25,26 +25,31 @@
                     <i class="fa-solid fa-plus"></i>
                 </button>
             </div>
-            <div class="priority-control">
-                <label for="todo-priority">Prioridade:</label>
-                <select id="todo-priority">
-                    <option value="low">Baixa</option>
-                    <option value="medium" selected>Média</option>
-                    <option value="high">Alta</option>
-                </select>
+            <div class="task-details">
+                <div class="priority-control">
+                    <label for="todo-priority">Prioridade:</label>
+                    <select id="todo-priority">
+                        <option value="low">Baixa</option>
+                        <option value="medium" selected>Média</option>
+                        <option value="high">Alta</option>
+                    </select>
+                </div>
+                <div class="category-control">
+                    <label for="todo-category">Categoria:</label>
+                    <select id="todo-category">
+                        <option value="none" selected>Sem categoria</option>
+                        <option value="studies">Estudos</option>
+                        <option value="work">Trabalho</option>
+                        <option value="personal">Pessoal</option>
+                    </select>
+                </div>
+                <div class="deadline-control">
+                    <label for="todo-deadline">Prazo:</label>
+                    <input type="date" id="todo-deadline">
+                </div>
             </div>
-            <div class="category-control">
-                <label for="todo-category">Categoria:</label>
-                <select id="todo-category">
-                    <option value="none" selected>Sem categoria</option>
-                    <option value="studies">Estudos</option>
-                    <option value="work">Trabalho</option>
-                    <option value="personal">Pessoal</option>
-                </select>
-            </div>
-            <div class="deadline-control">
-                <label for="todo-deadline">Prazo:</label>
-                <input type="date" id="todo-deadline">
+            <div id="task-form-actions">
+                <button type="button" id="clear-task-form-btn">Limpar formulário</button>
             </div>
         </form>
         <form id="edit-form" class="hide">
@@ -126,8 +131,8 @@
             </div>
             <div id="toolbar-actions">
                 <button type="button" id="clear-filters-btn">Limpar filtros</button>
-            </div>    
-        </div>       
+            </div>
+        </div>
         <div id="task-counter">
             <p>Total: <span id="total-count">0</span></p>
             <p>Pendentes: <span id="pending-count">0</span></p>

@@ -25,6 +25,7 @@ const totalCount = document.querySelector("#total-count");
 const pendingCount = document.querySelector("#pending-count");
 const completedCount = document.querySelector("#completed-count");
 const sortSelect = document.querySelector("#sort-select");
+const clearTaskFormBtn = document.querySelector("#clear-task-form-btn");
 
 let editingTodoId;
 
@@ -282,6 +283,11 @@ clearFiltersBtn.addEventListener("click", () => {
     categoryFilterSelect.value = "all";
     priorityFilterSelect.value = "all";
     applyFilters();
+});
+
+clearTaskFormBtn.addEventListener("click", () => {
+    todoForm.reset();
+    todoInput.focus();
 });
 
 //LocalStorage
