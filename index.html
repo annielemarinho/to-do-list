@@ -116,8 +116,18 @@
                     <option value="high">Alta</option>
                 </select>
             </div>
-            <button type="button" id="clear-filters-btn">Limpar filtros</button>
-        </div>
+            <div id="task-sorting">
+                <label for="sort-select">Ordenar por:</label>
+                <select id="sort-select">
+                    <option value="default">Ordem de cadastro</option>
+                    <option value="deadline">Prazo mais próximo</option>
+                    <option value="priority">Maior prioridade</option>
+                </select>
+            </div>
+            <div id="toolbar-actions">
+                <button type="button" id="clear-filters-btn">Limpar filtros</button>
+            </div>    
+        </div>       
         <div id="task-counter">
             <p>Total: <span id="total-count">0</span></p>
             <p>Pendentes: <span id="pending-count">0</span></p>
