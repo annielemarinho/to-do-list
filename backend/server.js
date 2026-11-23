@@ -16,6 +16,47 @@ app.get("/todos", function (req, res) {
 
 app.post("/todos", function (req, res) {
     const text = req.body?.text;
+    const priority = req.body?.priority;
+    const allowedPriorities = ["low", "medium", "high"];
+    const category = req.body?.category;
+    const allowedCategories = ["none", "studies", "work", "personal"];
+    const deadline = req.body?.deadline;
+
+    if (priority !== undefined && !allowedPriorities.includes(priority)) {
+        return res.status(400).json({
+            error: 'A prioridade deve ser low, medium ou high'
+        })
+    }
+
+    if (category !== undefined && !allowedCategories.includes(category)) {
+        return res.status(400).json({
+            error: 'A categoria deve ser none, studies, work ou personal'
+        })
+    }
+
+    if (deadline !== undefined && typeof deadline !== "string") {
+        return res.status(400).json({
+            error: 'O prazo deve ser um texto'
+        })
+    }
+
+    if (deadline) {
+        const deadlinePattern = /^\d{4}-\d{2}-\d{2}$/;
+        if (!deadlinePattern.test(deadline)) {
+            return res.status(400).json({
+                error: 'O prazo deve estar no formato AAAA-MM-DD'
+            })
+        }
+        const deadlineDate = new Date(deadline + "T00:00:00.000Z");
+        const [year, month, day] = deadline.split("-").map(Number);
+        if(deadlineDate.getUTCFullYear() !== year || deadlineDate.getUTCMonth() !== month -1 || deadlineDate.getUTCDate() !== day) {
+            return res.status(400).json({
+                error: 'Data inválida'
+            })
+        }
+
+    }
+
     if (typeof text !== "string") {
         return res.status(400).json({
             error: 'O título deve ser um texto'
@@ -30,7 +71,10 @@ app.post("/todos", function (req, res) {
     const newTodo = {
         text: trimmedText,
         done: false,
-        id: crypto.randomUUID()
+        id: crypto.randomUUID(),
+        priority: priority ?? "medium",
+        category: category ?? "none",
+        deadline: deadline ?? null
     };
     todos.push(newTodo);
     res.status(201).json(newTodo)
